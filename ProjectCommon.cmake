@@ -1,11 +1,17 @@
-# Flags used for all builds
-set(${PROJECT_NAME}_COMMON_FLAGS "-Wall")
+# This is meant to be included as part of the definition of a CMake project.  It
+# is not intended to be used by itself.
 
-# Flags used for all builds on specific platforms
-set(${PROJECT_NAME}_COMMON_LINUX_FLAGS
-  "-DLINUX ${${PROJECT_NAME}_COMMON_FLAGS}")
-set(${PROJECT_NAME}_COMMON_WINDOWS_FLAGS
-  "-DWINDOWS ${${PROJECT_NAME}_COMMON_FLAGS}")
+# Flags used for all builds
+set(${PROJECT_NAME}_FLAGS "-Wall")
+
+# Flags used for all builds for specific platforms
+set(${PROJECT_NAME}_LINUX_FLAGS   "-DLINUX")
+set(${PROJECT_NAME}_WINDOWS_FLAGS "-DWINDOWS")
+set(${PROJECT_NAME}_MACOS_FLAGS   "-DMACOS")
+
+# Flags used for specific build types
+set(${PROJECT_NAME}_DEBUG_FLAGS   "-DDEBUG")
+set(${PROJECT_NAME}_RELEASE_FLAGS "-DRELEASE")
 
 # Generate the LINUX variable
 if(UNIX AND NOT APPLE)
@@ -14,14 +20,54 @@ else(UNIX AND NOT APPLE)
   set(LINUX 0)
 endif(UNIX AND NOT APPLE)
 
+# Add the common flags and user-defined debug flags to the existing set of debug
+# flags
+string(CONCAT CMAKE_CXX_FLAGS_DEBUG
+  "${CMAKE_CXX_FLAGS_DEBUG} "
+  "${${PROJECT_NAME}_FLAGS "
+  "${${PROJECT_NAME}_DEBUG_FLAGS")
+
+# Add the common flags and user-defined release flags to the existing set of
+# release flags
+string(CONCAT CMAKE_CXX_FLAGS_RELEASE
+  "${CMAKE_CXX_FLAGS_RELEASE} "
+  "${${PROJECT_NAME}_FLAGS "
+  "${${PROJECT_NAME}_RELEASE_FLAGS")
+
 if(LINUX)
-  set(CMAKE_CXX_FLAGS_DEBUG
-    "${CMAKE_CXX_FLAGS_DEBUG} ${${PROJECT_NAME}_COMMON_LINUX_FLAGS}")
-  set(CMAKE_CXX_FLAGS_RELEASE
-    "${CMAKE_CXX_FLAGS_RELEASE} ${${PROJECT_NAME}_COMMON_LINUX_FLAGS}")
+
+  # Add Linux-specific debug flags
+  string(CONCAT CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} "
+    "${${PROJECT_NAME}_LINUX_FLAGS}")
+
+  # Add Linux-specific release flags
+  string(CONCAT CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} "
+    "${${PROJECT_NAME}_LINUX_FLAGS")
+
 elseif(WIN32)
-  set(CMAKE_CXX_FLAGS_DEBUG
-    "${CMAKE_CXX_FLAGS_DEBUG} ${${PROJECT_NAME}_COMMON_WINDOWS_FLAGS}")
-  set(CMAKE_CXX_FLAGS_RELEASE
-    "${CMAKE_CXX_FLAGS_RELEASE} ${${PROJECT_NAME}_COMMON_WINDOWS_FLAGS}")
+
+  # Add Windows-specific debug flags
+  string(CONCAT CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} "
+    "${${PROJECT_NAME}_WINDOWS_FLAGS}")
+
+  # Add Windows-specific release flags
+  string(CONCAT CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} "
+    "${${PROJECT_NAME}_WINDOWS_FLAGS")
+
+elseif(APPLE)
+
+  # Add macOS-specific debug flags
+  string(CONCAT CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} "
+    "${${PROJECT_NAME}_MACOS_FLAGS}")
+
+  # Add macOS-specific release flags
+  string(CONCAT CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} "
+    "${${PROJECT_NAME}_MACOS_FLAGS")
+
 endif(LINUX)
