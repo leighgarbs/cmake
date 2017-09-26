@@ -24,15 +24,15 @@ endif(UNIX AND NOT APPLE)
 # flags
 string(CONCAT CMAKE_CXX_FLAGS_DEBUG
   "${CMAKE_CXX_FLAGS_DEBUG} "
-  "${${PROJECT_NAME}_FLAGS "
-  "${${PROJECT_NAME}_DEBUG_FLAGS")
+  "${${PROJECT_NAME}_FLAGS} "
+  "${${PROJECT_NAME}_DEBUG_FLAGS}")
 
 # Add the common flags and user-defined release flags to the existing set of
 # release flags
 string(CONCAT CMAKE_CXX_FLAGS_RELEASE
   "${CMAKE_CXX_FLAGS_RELEASE} "
-  "${${PROJECT_NAME}_FLAGS "
-  "${${PROJECT_NAME}_RELEASE_FLAGS")
+  "${${PROJECT_NAME}_FLAGS} "
+  "${${PROJECT_NAME}_RELEASE_FLAGS}")
 
 if(LINUX)
 
@@ -44,7 +44,7 @@ if(LINUX)
   # Add Linux-specific release flags
   string(CONCAT CMAKE_CXX_FLAGS_RELEASE
     "${CMAKE_CXX_FLAGS_RELEASE} "
-    "${${PROJECT_NAME}_LINUX_FLAGS")
+    "${${PROJECT_NAME}_LINUX_FLAGS}")
 
 elseif(WIN32)
 
@@ -56,7 +56,7 @@ elseif(WIN32)
   # Add Windows-specific release flags
   string(CONCAT CMAKE_CXX_FLAGS_RELEASE
     "${CMAKE_CXX_FLAGS_RELEASE} "
-    "${${PROJECT_NAME}_WINDOWS_FLAGS")
+    "${${PROJECT_NAME}_WINDOWS_FLAGS}")
 
 elseif(APPLE)
 
@@ -68,6 +68,6 @@ elseif(APPLE)
   # Add macOS-specific release flags
   string(CONCAT CMAKE_CXX_FLAGS_RELEASE
     "${CMAKE_CXX_FLAGS_RELEASE} "
-    "${${PROJECT_NAME}_MACOS_FLAGS")
+    "${${PROJECT_NAME}_MACOS_FLAGS}")
 
 endif(LINUX)
