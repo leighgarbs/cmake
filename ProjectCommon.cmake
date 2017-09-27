@@ -1,6 +1,18 @@
 # This is meant to be included as part of the definition of a CMake project.  It
 # is not intended to be used by itself.
 
+# We want to explicitly define some kind of build type.  CMake defines the debug
+# and release build types.  If neither is defined by the user then define
+# release by default.  CMake will build with additional appropriate compiler
+# flags depending on which build type is set; we leave the choice of most
+# meaningful debug and release compiler flags to CMake and do not explicitly
+# specify them here.  Specification of compiler flags that are explicitly
+# specified in this file (not specified by CMake) happens just below.
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release")
+endif(NOT CMAKE_BUILD_TYPE)
+
 # Flags used for all builds
 set(${PROJECT_NAME}_FLAGS "-Wall")
 
