@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.0.2)
+
 # This is meant to be included as part of the definition of a CMake project.  It
 # is not intended to be used by itself.
 
