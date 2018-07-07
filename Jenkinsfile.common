@@ -29,8 +29,6 @@ def doStage =
 def stageCheckout =
 {
   checkoutUrl ->
-  deleteDir()
-
   checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
     branches: [[name: env.BRANCH_NAME]],
     browser: [$class: 'GitLab',
