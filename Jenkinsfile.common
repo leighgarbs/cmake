@@ -65,7 +65,7 @@ def stageWarnings =
 
 def stageCMakeBuild =
 {
-  runCMakeArgs = '', target = '',  ->
+  runCMakeArgs='', target='',  ->
   sh """
     $TEMP_BIN/run-cmake $runCMakeArgs .
     make $target
