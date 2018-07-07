@@ -56,7 +56,7 @@ def stageCppcheck =
 
 def stageWarnings =
 {
-  warningParser = 'GNU Make + GNU C Compiler (gcc)' =
+  warningParser = 'GNU Make + GNU C Compiler (gcc)' ->
     warnings canComputeNew: false,
            canResolveRelativePaths: false,
            categoriesPattern: '',
