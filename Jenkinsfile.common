@@ -26,24 +26,6 @@ def doStage =
   }
 }
 
-def stageCheckout =
-{
-  checkoutUrl ->
-  checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
-    branches: [[name: env.BRANCH_NAME]],
-    browser: [$class: 'GitLab',
-             repoUrl: checkoutUrl,
-             version: GITLAB_VERSION],
-    extensions: [[$class: 'SubmoduleOption',
-                disableSubmodules: false,
-                parentCredentials: false,
-                recursiveSubmodules: true,
-                reference: '',
-                trackingSubmodules: false]],
-    submoduleCfg: [],
-    userRemoteConfigs: [[credentialsId: '', url: checkoutUrl]]]
-}
-
 def stageCppcheck =
 {
   runCppcheckArgs = '' ->
