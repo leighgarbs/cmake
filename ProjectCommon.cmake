@@ -87,19 +87,26 @@ elseif(APPLE)
 endif(LINUX)
 
 # All projects append their unit test dependencies to this
-if(NOT TARGET unittests)
-  add_custom_target(unittests)
-endif(NOT TARGET unittests)
+if(NOT TARGET tests)
+  add_custom_target(tests)
+endif(NOT TARGET tests)
 
-# Useful for adding unit tests to projects
-function(add_unittest UT_NAME INCLUDE_DIRS LINK_LIBRARIES)
+# Useful for adding unit test executables (binaries) to projects
+function(add_test_executable TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
 
-  add_executable(${UT_NAME} ${CMAKE_CURRENT_LIST_DIR}/${UT_NAME}.cpp)
-  add_test(NAME ${UT_NAME} COMMAND ${UT_NAME})
-  add_dependencies(unittests ${UT_NAME})
-  add_dependencies(${PROJECT_NAME}-unittests ${UT_NAME})
+  add_executable(${TEST_NAME} ${CMAKE_CURRENT_LIST_DIR}/${TEST_NAME}.cpp)
 
-  target_include_directories(${UT_NAME} PUBLIC ${INCLUDE_DIRS})
-  target_link_libraries(${UT_NAME} ${LINK_LIBRARIES})
+  add_test(NAME ${TEST_NAME}
+           COMMAND ${TEST_NAME}
+           WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
-endfunction(add_unittest)
+  add_dependencies(tests ${TEST_NAME})
+  add_dependencies(${PROJECT_NAME}-tests ${TEST_NAME})
+
+  target_include_directories(${TEST_NAME} PUBLIC ${INCLUDE_DIRS})
+  target_link_libraries(${TEST_NAME} ${LINK_LIBRARIES})
+
+endfunction(add_test_executable)
+
+# We always want testing enabled
+enable_testing()
