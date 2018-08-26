@@ -95,7 +95,7 @@ endif(NOT TARGET unittests)
 function(add_unittest UT_NAME INCLUDE_DIRS LINK_LIBRARIES)
 
   add_executable(${UT_NAME} ${CMAKE_CURRENT_LIST_DIR}/${UT_NAME}.cpp)
-  add_test(${UT_NAME})
+  add_test(NAME ${UT_NAME} COMMAND ${UT_NAME})
   add_dependencies(unittests ${UT_NAME})
   add_dependencies(${PROJECT_NAME}-unittests ${UT_NAME})
 
