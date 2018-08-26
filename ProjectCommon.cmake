@@ -85,3 +85,20 @@ elseif(APPLE)
     "${${PROJECT_NAME}_MACOS_FLAGS}")
 
 endif(LINUX)
+
+# All projects append their unit test dependencies to this
+if(NOT TARGET unittests)
+  add_custom_target(unittests)
+endif(NOT TARGET unittests)
+
+# Useful for adding unit tests to projects
+function(add_unittest UT_NAME INCLUDE_DIRS LINK_LIBRARIES)
+
+  add_executable(${UT_NAME} ${CMAKE_CURRENT_LIST_DIR}/${UT_NAME}.cpp)
+  add_dependencies(unittests ${UT_NAME})
+  add_dependencies(unittests-${PROJECT_NAME} ${UT_NAME})
+
+  target_include_directories(${UT_NAME} PUBLIC ${INCLUDE_DIRS})
+  target_link_libraries(${UT_NAME} ${LINK_LIBRARIES})
+
+endfunction(add_unittest)
