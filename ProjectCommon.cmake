@@ -101,10 +101,11 @@ function(add_test_executable TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
            WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
   add_dependencies(tests ${TEST_NAME})
-  add_dependencies(${PROJECT_NAME}-tests ${TEST_NAME})
 
   target_include_directories(${TEST_NAME} PUBLIC ${INCLUDE_DIRS})
   target_link_libraries(${TEST_NAME} ${LINK_LIBRARIES})
+
+  set_property(TEST ${TEST_NAME} PROPERTY SKIP_RETURN_CODE 2)
 
 endfunction(add_test_executable)
 
