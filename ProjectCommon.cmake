@@ -92,9 +92,9 @@ if(NOT TARGET tests)
 endif(NOT TARGET tests)
 
 # Useful for adding unit test executables (binaries) to projects
-function(add_test_executable TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
+function(add_test_executable TEST_NAME SOURCE_FILES INCLUDE_DIRS LINK_LIBRARIES)
 
-  add_executable(${TEST_NAME} ${CMAKE_CURRENT_LIST_DIR}/${TEST_NAME}.cpp)
+  add_executable(${TEST_NAME} ${SOURCE_FILES})
 
   add_test(NAME ${TEST_NAME}
            COMMAND ${TEST_NAME}
@@ -109,6 +109,15 @@ function(add_test_executable TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
   set_property(TEST ${TEST_NAME} PROPERTY SKIP_RETURN_CODE 2)
 
 endfunction(add_test_executable)
+
+function(add_test_executable_simple TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
+
+  add_test_executable(${TEST_NAME}
+                      ${CMAKE_CURRENT_LIST_DIR}/${TEST_NAME}.cpp
+                      "${INCLUDE_DIRS}"
+                      "${LINK_LIBRARIES}")
+
+endfunction(add_test_executable_simple)
 
 # We always want testing enabled
 enable_testing()
