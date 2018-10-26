@@ -34,6 +34,8 @@ else(UNIX AND NOT APPLE)
   set(LINUX 0)
 endif(UNIX AND NOT APPLE)
 
+set(CMAKE_CXX_STANDARD 11)
+
 # Add the common flags and user-defined debug flags to the existing set of debug
 # flags
 string(CONCAT CMAKE_CXX_FLAGS_DEBUG
