@@ -34,6 +34,17 @@ else(UNIX AND NOT APPLE)
   set(LINUX 0)
 endif(UNIX AND NOT APPLE)
 
+# Generate the MACOS variable.  Could just use APPLE but MACOS is the name of a
+# platform, whereas APPLE is the name of a brand.
+if(APPLE)
+  set(MACOS 1)
+else(APPLE)
+  set(MACOS 0)
+endif(APPLE)
+
+# Request that all C++ builds are done with C++11 support enabled.  To my
+# knowledge this doesn't guarantee C++11 build support.  May move to newer C++
+# standards as needed.
 set(CMAKE_CXX_STANDARD 11)
 
 # Add the common flags and user-defined debug flags to the existing set of debug
