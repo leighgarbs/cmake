@@ -99,6 +99,17 @@ elseif(APPLE)
 
 endif(LINUX)
 
+# Define a function for prepending a string to each element of a list of strings
+function(list_prepend_to_each LIST PREFIX)
+  set(LIST_DREF ${${LIST}})
+  foreach(I IN LISTS LIST_DREF)
+    string(CONCAT J ${PREFIX} ${I})
+    list(APPEND LIST_DREF ${J})
+    list(REMOVE_AT LIST_DREF 0)
+  endforeach(I)
+  set(${LIST} ${LIST_DREF} PARENT_SCOPE)
+endfunction(list_prepend_to_each)
+
 # All projects append their unit test dependencies to this
 if(NOT TARGET tests)
   add_custom_target(tests)
