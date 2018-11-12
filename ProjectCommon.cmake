@@ -99,30 +99,56 @@ elseif(APPLE)
 
 endif(LINUX)
 
-# Define a function for prepending a string to each element of a list of strings
-function(list_prepend_to_each LIST PREFIX)
-  set(LIST_DREF ${${LIST}})
-  foreach(I IN LISTS LIST_DREF)
-    string(CONCAT J ${PREFIX} ${I})
-    list(APPEND LIST_DREF ${J})
-    list(REMOVE_AT LIST_DREF 0)
-  endforeach(I)
-  set(${LIST} ${LIST_DREF} PARENT_SCOPE)
-endfunction(list_prepend_to_each)
-
 # All projects append their unit test dependencies to this
 if(NOT TARGET tests)
   add_custom_target(tests)
 endif(NOT TARGET tests)
 
-# Useful for adding unit test executables (binaries) to projects
-function(add_test_executable TEST_NAME SOURCE_FILES INCLUDE_DIRS LINK_LIBRARIES)
+# We always want testing enabled
+enable_testing()
+
+#===============================================================================
+# Define a function for prepending a string to each element of a list of strings
+#===============================================================================
+function(list_prepend_to_each LIST PREFIX)
+
+  set(LIST_DREF ${${LIST}})
+
+  foreach(I IN LISTS LIST_DREF)
+
+    string(CONCAT J ${PREFIX} ${I})
+    list(APPEND LIST_DREF ${J})
+    list(REMOVE_AT LIST_DREF 0)
+
+  endforeach(I)
+
+  set(${LIST} ${LIST_DREF} PARENT_SCOPE)
+
+endfunction(list_prepend_to_each)
+
+#===============================================================================
+# Adds a test that builds from a single source file
+#===============================================================================
+function(add_test_executable_simple TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
+
+  add_test_executable(${TEST_NAME}
+    ${CMAKE_CURRENT_LIST_DIR}/${TEST_NAME}.cpp
+    "${INCLUDE_DIRS}"
+    "${LINK_LIBRARIES}")
+
+endfunction(add_test_executable_simple)
+
+#===============================================================================
+# Adds a test that builds from multiple source files
+#===============================================================================
+function(add_test_executable_complex
+    TEST_NAME SOURCE_FILES INCLUDE_DIRS LINK_LIBRARIES)
 
   add_executable(${TEST_NAME} ${SOURCE_FILES})
 
   add_test(NAME ${TEST_NAME}
-           COMMAND ${TEST_NAME}
-           WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+    COMMAND ${TEST_NAME}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
   add_dependencies(tests ${TEST_NAME})
   add_dependencies(${PROJECT_NAME}-tests ${TEST_NAME})
@@ -132,25 +158,19 @@ function(add_test_executable TEST_NAME SOURCE_FILES INCLUDE_DIRS LINK_LIBRARIES)
 
   set_property(TEST ${TEST_NAME} PROPERTY SKIP_RETURN_CODE 2)
 
-endfunction(add_test_executable)
+endfunction(add_test_executable_complex)
 
-function(add_test_executable_simple TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
-
-  add_test_executable(${TEST_NAME}
-                      ${CMAKE_CURRENT_LIST_DIR}/${TEST_NAME}.cpp
-                      "${INCLUDE_DIRS}"
-                      "${LINK_LIBRARIES}")
-
-endfunction(add_test_executable_simple)
-
+#===============================================================================
+# Useful for shortening calls to add_test_executable_simple
+#===============================================================================
 macro(test_simple TEST_NAME)
-add_test_executable_simple(${TEST_NAME} "${INC}" "${LIB}")
+  add_test_executable_simple(${TEST_NAME} "${INC}" "${LIB}")
 endmacro(test_simple)
 
+#===============================================================================
+# Useful for shortening calls to add_test_executable_complex
+#===============================================================================
 macro(test_complex TEST_NAME SRC)
-list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
-add_test_executable(${TEST_NAME} "${SRC}" "${INC}" "${LIB}")
+  list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
+  add_test_executable_complex(${TEST_NAME} "${SRC}" "${INC}" "${LIB}")
 endmacro(test_complex)
-
-# We always want testing enabled
-enable_testing()
