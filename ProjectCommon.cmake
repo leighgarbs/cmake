@@ -143,5 +143,9 @@ function(add_test_executable_simple TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
 
 endfunction(add_test_executable_simple)
 
+macro(test_simple TEST_NAME)
+add_test_executable_simple(${TEST_NAME} "${INC}" "${LIB}")
+endmacro(test_simple)
+
 # We always want testing enabled
 enable_testing()
