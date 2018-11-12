@@ -147,7 +147,7 @@ macro(test_simple TEST_NAME)
 add_test_executable_simple(${TEST_NAME} "${INC}" "${LIB}")
 endmacro(test_simple)
 
-macro(test_complex TEST_NAME)
+macro(test_complex TEST_NAME SRC)
 list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
 add_test_executable(${TEST_NAME} "${SRC}" "${INC}" "${LIB}")
 endmacro(test_complex)
