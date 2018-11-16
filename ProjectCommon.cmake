@@ -151,7 +151,6 @@ function(add_test_executable_complex
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
   add_dependencies(tests ${TEST_NAME})
-  add_dependencies(${PROJECT_NAME}-tests ${TEST_NAME})
 
   target_include_directories(${TEST_NAME} PUBLIC ${INCLUDE_DIRS})
   target_link_libraries(${TEST_NAME} ${LINK_LIBRARIES})
