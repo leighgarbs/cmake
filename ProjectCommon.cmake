@@ -127,24 +127,11 @@ function(list_prepend_to_each LIST PREFIX)
 endfunction(list_prepend_to_each)
 
 #===============================================================================
-# Adds a test that builds from a single source file
-#===============================================================================
-function(add_test_executable_simple TEST_NAME INCLUDE_DIRS LINK_LIBRARIES)
-
-  add_test_executable_complex(${TEST_NAME}
-    ${CMAKE_CURRENT_LIST_DIR}/${TEST_NAME}.cpp
-    "${INCLUDE_DIRS}"
-    "${LINK_LIBRARIES}")
-
-endfunction(add_test_executable_simple)
-
-#===============================================================================
 # Adds a test that builds from multiple source files
 #===============================================================================
-function(add_test_executable_complex
-    TEST_NAME SOURCE_FILES INCLUDE_DIRS LINK_LIBRARIES)
+function(add_test_executable TEST_NAME SRC INC LIB)
 
-  add_executable(${TEST_NAME} ${SOURCE_FILES})
+  add_executable(${TEST_NAME} ${SRC})
 
   add_test(NAME ${TEST_NAME}
     COMMAND ${TEST_NAME}
@@ -152,24 +139,9 @@ function(add_test_executable_complex
 
   add_dependencies(tests ${TEST_NAME})
 
-  target_include_directories(${TEST_NAME} PUBLIC ${INCLUDE_DIRS})
-  target_link_libraries(${TEST_NAME} ${LINK_LIBRARIES})
+  target_include_directories(${TEST_NAME} PUBLIC ${INC})
+  target_link_libraries(${TEST_NAME} ${LIB})
 
   set_property(TEST ${TEST_NAME} PROPERTY SKIP_RETURN_CODE 2)
 
-endfunction(add_test_executable_complex)
-
-#===============================================================================
-# Useful for shortening calls to add_test_executable_simple
-#===============================================================================
-macro(test_simple TEST_NAME)
-  add_test_executable_simple(${TEST_NAME} "${INC}" "${LIB}")
-endmacro(test_simple)
-
-#===============================================================================
-# Useful for shortening calls to add_test_executable_complex
-#===============================================================================
-macro(test_complex TEST_NAME SRC)
-  list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
-  add_test_executable_complex(${TEST_NAME} "${SRC}" "${INC}" "${LIB}")
-endmacro(test_complex)
+endfunction(add_test_executable)
