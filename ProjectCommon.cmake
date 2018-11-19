@@ -105,7 +105,7 @@ if(NOT TARGET tests)
 endif(NOT TARGET tests)
 
 # We always want testing enabled
-enable_testing()
+include(CTest)
 
 #===============================================================================
 # Define a function for prepending a string to each element of a list of strings
