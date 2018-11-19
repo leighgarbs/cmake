@@ -108,6 +108,17 @@ endif(NOT TARGET tests)
 # enables dashboards
 include(CTest)
 
+# CTest Valgrind memcheck setup
+if(LINUX)
+  find_program(MEMORYCHECK_COMMAND valgrind)
+  string(CONCAT MEMORYCHECK_COMMAND_OPTIONS
+    "--child-silent-after-fork=yes "
+    "--xml=yes "
+    "--xml-file=${PROJECT_BINARY_DIR}/valgrind.%p.xml "
+    "--leak-check=full "
+    "-q")
+endif(LINUX)
+
 #===============================================================================
 # Define a function for prepending a string to each element of a list of strings
 #===============================================================================
