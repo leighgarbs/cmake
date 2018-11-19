@@ -108,14 +108,14 @@ endif(NOT TARGET tests)
 # enables dashboards
 include(CTest)
 
-# Valgrind memcheck setup
+# CTest Valgrind memcheck setup
 if(LINUX)
-  set(CTEST_MEMORYCHECK_COMMAND valgrind)
-  set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "\
-    --child-silent-after-fork=yes \
-    --xml-yes \
-    --xml-file=valgrind.xml \
-    --leak-check=full")
+  find_program(MEMORYCHECK_COMMAND valgrind)
+  string(CONCAT MEMORYCHECK_COMMAND_OPTIONS
+    "--child-silent-after-fork=yes "
+    "--xml=yes "
+    "--xml-file=valgrind.xml "
+    "--leak-check=full")
 endif(LINUX)
 
 #===============================================================================
