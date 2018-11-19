@@ -108,6 +108,16 @@ endif(NOT TARGET tests)
 # enables dashboards
 include(CTest)
 
+# Valgrind memcheck setup
+if(LINUX)
+  set(CTEST_MEMORYCHECK_COMMAND valgrind)
+  set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "\
+    --child-silent-after-fork=yes \
+    --xml-yes \
+    --xml-file=valgrind.xml \
+    --leak-check=full")
+endif(LINUX)
+
 #===============================================================================
 # Define a function for prepending a string to each element of a list of strings
 #===============================================================================
