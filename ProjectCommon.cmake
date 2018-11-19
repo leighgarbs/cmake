@@ -114,8 +114,9 @@ if(LINUX)
   string(CONCAT MEMORYCHECK_COMMAND_OPTIONS
     "--child-silent-after-fork=yes "
     "--xml=yes "
-    "--xml-file=valgrind.xml "
-    "--leak-check=full")
+    "--xml-file=${PROJECT_BINARY_DIR}/valgrind.%p.xml "
+    "--leak-check=full "
+    "-q")
 endif(LINUX)
 
 #===============================================================================
