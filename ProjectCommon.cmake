@@ -104,8 +104,9 @@ if(NOT TARGET tests)
   add_custom_target(tests)
 endif(NOT TARGET tests)
 
-# We always want testing enabled
-enable_testing()
+# Include the CTest module.  This has the effect of enable_testing() and also
+# enables dashboards
+include(CTest)
 
 #===============================================================================
 # Define a function for prepending a string to each element of a list of strings
