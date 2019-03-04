@@ -15,4 +15,5 @@ projects.
   * Defines "add_test_executable" function for adding tests to the framework
 
 ## Style ##
-* [Emacs CMake major mode](https://github.com/Kitware/CMake/tree/master/Auxiliary)
+* [Kitware Emacs major mode for CMake]
+  (https://github.com/Kitware/CMake/tree/master/Auxiliary)
