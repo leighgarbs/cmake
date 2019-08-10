@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.0.2)
 # This is meant to be included as part of the definition of a CMake project.  It
 # is not intended to be used by itself.
 
+cmake_policy(VERSION 3.13)
+
 # We want to explicitly define some kind of build type.  CMake defines the debug
 # and release build types.  If neither is defined by the user then define
 # release by default.  CMake will build with additional appropriate compiler
