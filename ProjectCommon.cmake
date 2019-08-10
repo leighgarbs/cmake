@@ -1,3 +1,4 @@
+# This implicitly sets cmake_policy version to whatever is specified here
 cmake_minimum_required(VERSION 3.10.2)
 
 # This is meant to be included as part of the definition of a CMake project.  It
