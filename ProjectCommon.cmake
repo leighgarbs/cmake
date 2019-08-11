@@ -16,7 +16,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # Flags used for all builds
-set(${PROJECT_NAME}_FLAGS "-Wall")
+#set(${PROJECT_NAME}_FLAGS "-Wall")
 
 # Flags used for all builds for specific platforms
 set(${PROJECT_NAME}_LINUX_FLAGS   "-DLINUX")
